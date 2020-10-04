@@ -1,3 +1,7 @@
 ;;;; pacman-cl.lisp
 
-(in-package #:pacman-cl)
+(defpackage :pacman-cl/pacman-cl
+  (:use :cl)
+  (:export :foo))
+
+(defun foo () 3)

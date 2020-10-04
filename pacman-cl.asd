@@ -6,5 +6,5 @@
   :license  "MIT"
   :version "0.0.1"
   :serial t
-  :components ((:file "package")
-               (:file "pacman-cl")))
+  :class :package-inferred-system
+  :depends-on ("pacman-cl/package" "pacman-cl/src/package"))
