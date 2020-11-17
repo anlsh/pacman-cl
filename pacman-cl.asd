@@ -1,10 +1,10 @@
 ;;;; pacman.asd
 
-(asdf:defsystem #:pacman-cl
+(asdf:defsystem :pacman-cl
   :description "A common lisp clone of pacman"
   :author "Anish Moorthy (anlsh@protonmail.com)"
   :license  "MIT"
-  :version "0.0.1"
-  :serial t
   :class :package-inferred-system
-  :depends-on ("pacman-cl/package" "pacman-cl/src/package"))
+  :defsystem-depends-on (:asdf-package-system)
+  :depends-on (:defclass-std :uiop
+                :pacman-cl/package))

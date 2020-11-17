@@ -1,7 +1,7 @@
-(defpackage :pacman-cl/src/main
+(uiop:define-package :pacman-cl/src/main
   (:use :cl)
   (:export :foo))
 
 (in-package :pacman-cl/src/main)
 
-(defun foo () 3)
+(defun foo () 4)

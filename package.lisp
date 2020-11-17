@@ -1,3 +1,12 @@
-(uiop/package:define-package :pacman-cl/package
+(print "hello world")
+
+(uiop:define-package :pacman-cl/package
   (:nicknames :pacman-cl)
-  (:use-reexport :pacman-cl/src/package))
+  (:use #:cl)
+  (:use-reexport :pacman-cl/src/package)
+  (:export
+   #:boo))
+
+(in-package :pacman-cl/package)
+
+(defun boo () 3)
