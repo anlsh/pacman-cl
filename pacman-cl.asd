@@ -6,5 +6,5 @@
   :license  "MIT"
   :class :package-inferred-system
   :defsystem-depends-on (:asdf-package-system)
-  :depends-on (:defclass-std :uiop
+  :depends-on (:defclass-std :uiop :trivial-gamekit
                 :pacman-cl/package))

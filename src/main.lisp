@@ -1,5 +1,6 @@
-(uiop:define-package :pacman-cl/src/main
+(defpackage :pacman-cl/src/main
   (:use :cl)
+  (:local-nicknames (#:gk #:trivial-gamekit))
   (:export :foo))
 
 (in-package :pacman-cl/src/main)
