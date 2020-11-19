@@ -1,5 +1,3 @@
-(print "hello world")
-
 (uiop:define-package :pacman-cl/package
   (:nicknames :pacman-cl)
   (:use #:cl)
@@ -8,5 +6,3 @@
    #:boo))
 
 (in-package :pacman-cl/package)
-
-(defun boo () 3)
