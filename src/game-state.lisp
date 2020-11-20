@@ -7,14 +7,15 @@
   (:export
    #:bind-input-handler/active-game
    #:init-game-state
-   #:game-step
+   #:step-game
    #:game-map
    #:player-char))
 
 (in-package :pacman-cl/src/game-state)
 
 (defclass game-state ()
-  ((player-char :accessor player-char :initarg :player-char)
+  ((is-paused :accessor is-paused :initform nil)
+   (player-char :accessor player-char :initarg :player-char)
    (enemies :accessor enemies :initarg :enemy-list)
    (game-map :accessor game-map :initarg :game-map)
    (tick :reader get-tick :initform 0)))
@@ -23,6 +24,9 @@
   ;; TODO This event-based handling is GONNA bite me in the butt...
   (declare (type game-state game-state))
   (with-slots (player-char) game-state
+    (gk:bind-button :p :pressed (lambda ()
+                                  (setf (is-paused game-state)
+                                        (not (is-paused game-state)))))
     (gk:bind-button :w :pressed (lambda () (setf (dir player-char) :up)))
     (gk:bind-button :a :pressed (lambda () (setf (dir player-char) :left)))
     (gk:bind-button :s :pressed (lambda () (setf (dir player-char) :down)))
@@ -42,7 +46,9 @@
                                                '(:right)))
                    :enemy-list '())))
 
-(defmethod game-step ((state game-state))
+(defmethod step-game ((state game-state))
+  (if (is-paused state)
+      (return-from step-game nil))
   (let ((player (player-char state)))
     (ecase (dir player)
       (:left (incf (x player) -1))

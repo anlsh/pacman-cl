@@ -46,7 +46,9 @@
 ;; Some actual specializations
 
 (defclass entity/pacman (positionable orientable)
-  ((xspeed :accessor xspeed :initform 1)))
+  ((xspeed :accessor xspeed :initform 1)
+   (want-dir :accessor want-dir :initarg :want-dir)))
 
 (defun make-pacman (x y dir)
-  (make-instance 'entity/pacman :x x :y y :dir dir))
+  (make-instance 'entity/pacman
+                 :x x :y y :dir dir))
