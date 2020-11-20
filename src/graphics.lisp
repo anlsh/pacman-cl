@@ -61,15 +61,17 @@
                                      (if ,fits
                                          (gk:with-pushed-canvas ()
                                            (gk:rotate-canvas (* -1 ,rotation-code (/ pi 2)))
+                                           (gk:translate-canvas (* -1 (/ *unit-size* 2))
+                                                                (* -1 (/ *unit-size* 2)))
                                            (progn ,@body (return-from draw-barrier)))))))
                               clauses)))))
        (draw-with-rotation-on-fit
         (#(:e :e :e :a :a :a :a :a)
-          (gk:draw-arc (gk:vec2 (* -1 (/ *unit-size* 2)) (* -1 (/ *unit-size* 2)))
+          (gk:draw-arc (gk:vec2 0 0)
                        (/ *unit-size* 2) 0 (/ pi 2)
                        :stroke-paint *blue* :thickness *map-line-thickness*))
         (#(:a :a :a :a :a :a :a :a)
-          (gk:draw-rect (gk:vec2 (* -1 (/ *unit-size* 2)) (* -1 (/ *unit-size* 2)))
+          (gk:draw-rect (gk:vec2 0 0)
                         *unit-size* *unit-size* :fill-paint *blue*))))))
 
 ;; Tools for working with border patterns
