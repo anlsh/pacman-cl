@@ -2,17 +2,15 @@
   (:use :cl)
   (:local-nicknames (#:dcl #:defclass-std))
   (:export
-   #:positionable/get-x
-   #:positionable/get-y
-   #:orientable/get-orientation
-   #:orientable/set-orientation))
+   #:x
+   #:y
+   #:dir
+   #:make-pacman
+   #:speed))
 
 (in-package :pacman-cl/src/entities)
 
 ;; Position stuff
-
-(dcl:defclass/std positionable ()
-  ((x y)))
 
 (defclass positionable ()
   ((x :accessor x :initarg :x)
@@ -37,22 +35,18 @@
 (defclass orientable ()
   ((dir :accessor dir :initarg :dir)))
 
-
-(defclass orientable ()
-  ((dir :accessor dir :initarg :dir)))
-
 (defmethod (setf dir) (new-dir (o orientable))
   (unless (find new-dir *directions*)
     (error "~a is not one of ~a" new-dir *directions*))
   (setf (slot-value o 'dir) new-dir))
 
-(defmethod intialize-instance :after ((o orientable) &key dir)
+(defmethod initialize-instance :after ((o orientable) &key dir)
   (setf (dir o) dir))
 
 ;; Some actual specializations
 
-(dcl:defclass/std entity/pacman (positionable orientable)
-  ())
+(defclass entity/pacman (positionable orientable)
+  ((xspeed :accessor xspeed :initform 1)))
 
 (defun make-pacman (x y dir)
   (make-instance 'entity/pacman :x x :y y :dir dir))
