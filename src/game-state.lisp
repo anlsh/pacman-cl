@@ -8,19 +8,16 @@
    #:bind-input-handler/active-game
    #:init-game-state
    #:game-step
+   #:game-map
    #:player-char))
 
 (in-package :pacman-cl/src/game-state)
 
-(dcl:defclass/std game-state ()
-  ((player-char
-    enemy-list
-    game-map)))
-
 (defclass game-state ()
   ((player-char :accessor player-char :initarg :player-char)
    (enemies :accessor enemies :initarg :enemy-list)
-   (game-map :accessor game-map :initarg :game-map)))
+   (game-map :accessor game-map :initarg :game-map)
+   (tick :reader get-tick :initform 0)))
 
 (defun bind-input-handler/active-game (game-state)
   ;; TODO This event-based handling is GONNA bite me in the butt...
@@ -51,4 +48,6 @@
       (:left (incf (x player) -1))
       (:right (incf (x player) 1))
       (:up (incf (y player) 1))
-      (:down (incf (y player) -1)))))
+      (:down (incf (y player) -1))))
+  (with-slots (tick) state
+    (incf tick)))
