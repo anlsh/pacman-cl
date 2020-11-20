@@ -65,7 +65,7 @@
                               clauses)))))
        (draw-with-rotation-on-fit
         (#(:e :e :e :a :a :a :a :a)
-          (gk:draw-arc (gk:vec2 0 0)
+          (gk:draw-arc (gk:vec2 (* -1 (/ *unit-size* 2)) (* -1 (/ *unit-size* 2)))
                        (/ *unit-size* 2) 0 (/ pi 2)
                        :stroke-paint *blue* :thickness *map-line-thickness*))
         (#(:a :a :a :a :a :a :a :a)
