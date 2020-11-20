@@ -66,10 +66,22 @@
                                            (progn ,@body (return-from draw-barrier)))))))
                               clauses)))))
        (draw-with-rotation-on-fit
+        ;; Supposed to take care of straight walls. Definitely doesn't though
+        (#(:e :a :b :a :a :a :b :a)
+          (gk:draw-line (gk:vec2 (/ *unit-size* 2) 0)
+                        (gk:vec2 (/ *unit-size* 2) *unit-size*)
+                        *blue* :thickness *map-line-thickness*))
+        ;; Convex corners
         (#(:e :e :e :a :a :a :a :a)
           (gk:draw-arc (gk:vec2 0 0)
                        (/ *unit-size* 2) 0 (/ pi 2)
                        :stroke-paint *blue* :thickness *map-line-thickness*))
+        ;; Concave corners
+        (#(:b :e :b :a :a :a :a :a)
+          (gk:draw-arc (gk:vec2 *unit-size* *unit-size*)
+                       (/ *unit-size* 2) pi (* 3 (/ pi 2))
+                       :stroke-paint *blue* :thickness *map-line-thickness*))
+        ;; Everything else
         (#(:a :a :a :a :a :a :a :a)
           (gk:draw-rect (gk:vec2 0 0)
                         *unit-size* *unit-size* :fill-paint *blue*))))))
