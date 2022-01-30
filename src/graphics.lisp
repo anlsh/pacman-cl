@@ -6,7 +6,9 @@
 (in-package :pacman-cl/src/graphics)
 
 ;; Number of pixels a single box will occupy
-(defvar *unit-size* 20)
+(defparameter *unit-size* 20)
+(defparameter *sprite-size* 32)
+(defparameter *ticks-per-sprite-update* 4)
 
 ;; Colors
 (defvar *map-line-thickness* 5)
@@ -14,19 +16,35 @@
 (defvar *blue* (gamekit:vec4 0 0 1 1))
 (defvar *yellow* (gamekit:vec4 1 1 0 1))
 
+
+(gk:register-resource-package :pacman-cl/src/graphics "~/Code/pacman-cl/resources/")
+(gk:define-image spritesheet "sprites.png")
+
 (defun draw-grid-box (x y color)
   (gk:draw-rect (gk:vec2 (* x *unit-size*) (* y *unit-size*))
                 *unit-size* *unit-size* :fill-paint color))
 
 (defun draw-game (game-state)
   (draw-map (game-map game-state))
-  (draw-player (player-char game-state)))
+  (draw-player game-state)
+  (gk:draw-text (format nil "(~a, ~a)"
+                        (x (player-char game-state))
+                        (y (player-char game-state)))
+                (gk:vec2 0 0)))
 
-(defun draw-player (player-char)
-  (gk:draw-rect (gk:vec2  (* (x player-char))
-                          (* (y player-char)))
-                *unit-size* *unit-size*
-                :fill-paint *yellow*))
+(defun draw-player (game-state)
+  (with-accessors ((tick tick) (player-char player-char)) game-state
+    (let ((tick (mod (floor (/ tick *ticks-per-sprite-update*)) 3)))
+      (gk:with-pushed-canvas ()
+        (gk:translate-canvas (* *unit-size* (x player-char))
+                             (* *unit-size* (y player-char)))
+        (gk:with-pushed-canvas ()
+          (gk:rotate-canvas (get-angle player-char))
+          (gk:draw-image (gk:vec2 (/ *sprite-size* -2)
+                                  (/ *sprite-size* -2))
+                         'spritesheet
+                         :origin (gk:vec2 (* tick *sprite-size*) (* 7 *sprite-size*))
+                         :width 32 :height 32))))))
 
 (defun draw-map (game-map)
   ;; Draw a black screen first

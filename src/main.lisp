@@ -11,10 +11,12 @@
    (graphics-state :reader graphics-state))
   (:viewport-width 800)     ; window's width
   (:viewport-height 600); window's height
-  (:viewport-title "Pacman"))
+  (:viewport-title "Pacman")
+  (:act-rate 16))
 
 (defmethod gk:post-initialize ((app pacman-game))
-  (bind-input-handler/active-game (game-state app)))
+  (bind-input-handler/active-game (game-state app))
+  (gk:register-resource-package :pacman-cl/images "/home/anish/Code/pacman-cl/resources/"))
 
 (defmethod gk:act ((app pacman-game))
   (step-game (game-state app)))

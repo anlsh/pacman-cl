@@ -7,5 +7,6 @@
   :class :package-inferred-system
   :defsystem-depends-on (:asdf-package-system)
   :depends-on (:defclass-std :uiop :jonathan :trivial-gamekit
+                :fset
                 :alexandria
                 :pacman-cl/package))
